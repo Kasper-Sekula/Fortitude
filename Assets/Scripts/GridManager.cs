@@ -43,20 +43,37 @@ public class GridManager : MonoBehaviour
 
         bool hasHit = Physics.Raycast(ray, out raycastHit);
 
-        if (hasHit)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                print(raycastHit.transform.name);  
-            }
-        }
-
         int x ,y ,z;
         x = Mathf.FloorToInt((raycastHit.point.x + 5) / 10);
         y = Mathf.FloorToInt(raycastHit.point.y);
         z = Mathf.FloorToInt((raycastHit.point.z + 5) / 10);
 
         Vector3 vec = new Vector3(x,y,z);
+
+        if (hasHit)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                print(raycastHit.transform.name);
+                GameObject cube = DrawObject(vec);
+
+                vec *= 10;
+                vec.y = 1f;
+                cube.transform.position = vec;
+            }
+        }
+
         return vec;
+    }
+
+    private GameObject DrawObject(Vector3 placeToDraw)
+    {
+        // Changing grid coordinates to cell size scale coordinates
+        placeToDraw*=cellSize;
+        placeToDraw.y = 1f;
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.transform.localScale = new Vector3(cellSize, cellSize, cellSize);
+        cube.GetComponent<Renderer>().material.color = Color.black;
+        return cube;
     }
 }

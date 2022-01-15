@@ -33,10 +33,10 @@ public class GridManager : MonoBehaviour
 
     private void Update()
     {
-        GetMouseWorldPosition();
+        print(GetMouseWorldPosition());
     }
 
-    public void GetMouseWorldPosition()
+    public Vector3 GetMouseWorldPosition()
     {
         RaycastHit raycastHit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -51,7 +51,12 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        Vector3 vec = raycastHit.point;
-        print(vec);
+        int x ,y ,z;
+        x = Mathf.FloorToInt((raycastHit.point.x + 5) / 10);
+        y = Mathf.FloorToInt(raycastHit.point.y);
+        z = Mathf.FloorToInt((raycastHit.point.z + 5) / 10);
+
+        Vector3 vec = new Vector3(x,y,z);
+        return vec;
     }
 }

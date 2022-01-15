@@ -14,8 +14,6 @@ public class Grid
         this._width = width;
         this._height = height;
         this._cellSize = cellSize;
-
-        gridArray = new int[width, height];
     }
 
     private Vector3 GetWorldPosition(int x, int y)
@@ -29,16 +27,16 @@ public class Grid
         y = Mathf.FloorToInt(wordlPosition.y / _cellSize);
     }
 
-    public int GetValue(int x, int y)
-    {
-        if (x >= 0 && y >= 0 && x < _width && y <_height) { return gridArray[x,y]; }
-        else { return 0;}
-    }
+    // public int GetValue(int x, int y)
+    // {
+    //     if (x >= 0 && y >= 0 && x < _width && y <_height) { return gridArray[x,y]; }
+    //     else { return 0;}
+    // }
 
-    public int GetValue(Vector3 worldPosition)
-    {
-        int x, y;
-        GetXY(worldPosition, out x, out y);
-        return GetValue(x, y);
-    }
+    // public int GetValue(Vector3 worldPosition)
+    // {
+    //     int x, y;
+    //     GetXY(worldPosition, out x, out y);
+    //     return GetValue(x, y);
+    // }
 }

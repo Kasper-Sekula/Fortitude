@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] Vector2 cameraMovementLimit;
     [SerializeField] float scrollUpperLimit;
     [SerializeField] float scrollBottomLimit;
+    [SerializeField] float cameraCenterOffset;
 
     private void Update()
     {
@@ -51,7 +52,7 @@ public class CameraController : MonoBehaviour
 
     private void SetNewCameraPosition(Vector3 cameraPosition)
     {
-        cameraPosition.x = Mathf.Clamp(cameraPosition.x, -cameraMovementLimit.x, cameraMovementLimit.x);
+        cameraPosition.x = Mathf.Clamp(cameraPosition.x, -cameraMovementLimit.x + cameraCenterOffset, cameraMovementLimit.x + cameraCenterOffset);
         cameraPosition.y = Mathf.Clamp(cameraPosition.y, scrollBottomLimit, scrollUpperLimit);
         cameraPosition.z = Mathf.Clamp(cameraPosition.z, -cameraMovementLimit.y, cameraMovementLimit.y);
 

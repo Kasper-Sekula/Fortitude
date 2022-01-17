@@ -10,11 +10,14 @@ public class GridManager : MonoBehaviour
     [Tooltip("Cell size should be equal to grid multiplier.")]
     [SerializeField] float cellSize = 10f;
     [SerializeField] GameObject tilePrefab;
-    Grid grid;
+    [SerializeField] GameObject mainTreePrefab;
+    GameObject[,] arr;
+    
 
     private void Start()
     {
-        GridCreator(width, height, cellSize);    
+        GridCreator(width, height, cellSize);
+        CreateMainTree();
     }
 
     private void Update()
@@ -24,13 +27,13 @@ public class GridManager : MonoBehaviour
 
     private void GridCreator(int width, int height, float cellSize)
     {
-        Grid grid = new Grid(width, height, cellSize);
-
+        arr = new GameObject[width, height];
         for (int i=0; i<width; i++)
         {
             for (int j=0; j<height; j++)
             {
-                CreateSingleTile(i, j, cellSize, tilePrefab);
+                arr[i,j] = CreateSingleTile(i, j, cellSize, tilePrefab);
+                //print(arr[i,j]);
             }
         }
     }
@@ -45,6 +48,11 @@ public class GridManager : MonoBehaviour
         tileProps.tilePrefab = tilePrefab;
 
         return gameObject;
+    }
+
+    void CreateMainTree()
+    {
+        GameObject gameObject = Instantiate(mainTreePrefab, new Vector3(width * cellSize / 2f, 0.5f, height * cellSize / 2f), Quaternion.identity) as GameObject;
     }
 
     public Vector3 GetMouseWorldPosition()

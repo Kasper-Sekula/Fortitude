@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] float scrollUpperLimit;
     [SerializeField] float scrollBottomLimit;
     [SerializeField] float cameraCenterOffset;
+
 
     private void Update()
     {
@@ -54,7 +56,7 @@ public class CameraController : MonoBehaviour
     {
         cameraPosition.x = Mathf.Clamp(cameraPosition.x, -cameraMovementLimit.x + cameraCenterOffset, cameraMovementLimit.x + cameraCenterOffset);
         cameraPosition.y = Mathf.Clamp(cameraPosition.y, scrollBottomLimit, scrollUpperLimit);
-        cameraPosition.z = Mathf.Clamp(cameraPosition.z, -cameraMovementLimit.y, cameraMovementLimit.y);
+        cameraPosition.z = Mathf.Clamp(cameraPosition.z, -cameraMovementLimit.y, cameraMovementLimit.y + cameraCenterOffset);
 
         transform.position = cameraPosition;
     }

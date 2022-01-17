@@ -318,7 +318,7 @@ MonoBehaviour:
   cameraMovementLimit: {x: 20, y: 20}
   scrollUpperLimit: 50
   scrollBottomLimit: 20
-  cameraCenterOffset: 35
+  cameraCenterOffset: 50
 --- !u!1 &1531918487
 GameObject:
   m_ObjectHideFlags: 0

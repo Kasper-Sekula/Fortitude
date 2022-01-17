@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] int width = 1;
-    [SerializeField] int height = 1;
+    [SerializeField] public int width = 1;
+    [SerializeField] public int height = 1;
     [Tooltip("Cell size should be equal to grid multiplier.")]
     [SerializeField] float cellSize = 10f;
     [SerializeField] GameObject tilePrefab;

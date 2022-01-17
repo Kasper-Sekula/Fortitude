@@ -329,6 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1531918488}
   - component: {fileID: 1531918489}
+  - component: {fileID: 1531918490}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -365,8 +366,20 @@ MonoBehaviour:
   width: 10
   height: 10
   cellSize: 10
-  tilePrefab: {fileID: 5774349647612296209, guid: e32bcabd1c2c42e409244f7438a94557, type: 3}
+  tilePrefab: {fileID: 6514766473470281956, guid: 99bce7f230e96364faabed6d6c75459b, type: 3}
   mainTreePrefab: {fileID: 8583419768018756074, guid: 25ed157ba1aa17646b20c040ddf53466, type: 3}
+--- !u!114 &1531918490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531918487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ca7c42a64bfa0946a902ba18108411a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1822183583
 GameObject:
   m_ObjectHideFlags: 0

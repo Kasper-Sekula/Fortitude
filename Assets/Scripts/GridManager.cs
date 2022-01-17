@@ -33,7 +33,6 @@ public class GridManager : MonoBehaviour
             for (int j=0; j<height; j++)
             {
                 arr[i,j] = CreateSingleTile(i, j, cellSize, tilePrefab);
-                //print(arr[i,j]);
             }
         }
     }
@@ -79,17 +78,15 @@ public class GridManager : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                print(raycastHit.transform.name);
-
                 TileProps tileprops = raycastHit.transform.GetComponent<TileProps>();
                 if (tileprops.CheckIfCanBuildOnTile())
                 {
                     GameObject cube = DrawObject(vec);
-                    print(tileprops.CheckIfCanBuildOnTile());
 
                     vec *= 10;
                     vec.y = 1f;
                     cube.transform.position = vec;
+                    print(tileprops.SoilType);
                 }
 
             }

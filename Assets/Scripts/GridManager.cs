@@ -12,20 +12,6 @@ public class GridManager : MonoBehaviour
     [SerializeField] GameObject tilePrefab;
     Grid grid;
 
-    private void GridCreator(int width, int height, float cellSize)
-    {
-        grid = new Grid(width, height, cellSize);
-
-        for (int i=0; i<width; i++)
-        {
-            for (int j=0; j<height; j++)
-            {
-                GameObject gameObject = Instantiate(tilePrefab, new Vector3(i *10, 0.5f, j*10), Quaternion.identity) as GameObject;
-                gameObject.transform.parent = GameObject.Find("Grid").transform;
-            }
-        }
-    }
-
     private void Start()
     {
         GridCreator(width, height, cellSize);    
@@ -34,6 +20,31 @@ public class GridManager : MonoBehaviour
     private void Update()
     {
         print(GetMouseWorldPosition());
+    }
+
+    private void GridCreator(int width, int height, float cellSize)
+    {
+        Grid grid = new Grid(width, height, cellSize);
+
+        for (int i=0; i<width; i++)
+        {
+            for (int j=0; j<height; j++)
+            {
+                CreateSingleTile(i, j, cellSize, tilePrefab);
+            }
+        }
+    }
+
+    private GameObject CreateSingleTile(int posX, int posZ, float cellSize, GameObject prefab)
+    {
+        GameObject gameObject = Instantiate(prefab, new Vector3(posX * cellSize, 0.5f, posZ * cellSize), Quaternion.identity) as GameObject;
+        gameObject.transform.parent = GameObject.Find("Grid").transform;
+                
+        gameObject.AddComponent<TileProps>();
+        TileProps tileProps = gameObject.GetComponent<TileProps>();
+        tileProps.tilePrefab = tilePrefab;
+
+        return gameObject;
     }
 
     public Vector3 GetMouseWorldPosition()
@@ -50,7 +61,7 @@ public class GridManager : MonoBehaviour
 
         Vector3 vec = new Vector3(x,y,z);
 
-        if (hasHit)
+        if (hasHit && raycastHit.transform.tag == "Tile")
         {
             if (Input.GetMouseButtonDown(0))
             {

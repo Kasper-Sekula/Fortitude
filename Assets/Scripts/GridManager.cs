@@ -19,7 +19,7 @@ public class GridManager : MonoBehaviour
 
     private void Update()
     {
-        print(GetMouseWorldPosition());
+        GetMouseWorldPosition();
     }
 
     private void GridCreator(int width, int height, float cellSize)
@@ -54,23 +54,36 @@ public class GridManager : MonoBehaviour
 
         bool hasHit = Physics.Raycast(ray, out raycastHit);
 
-        int x ,y ,z;
+        int x, y, z;
         x = Mathf.FloorToInt((raycastHit.point.x + 5) / 10);
         y = Mathf.FloorToInt(raycastHit.point.y);
         z = Mathf.FloorToInt((raycastHit.point.z + 5) / 10);
 
-        Vector3 vec = new Vector3(x,y,z);
+        Vector3 vec = new Vector3(x, y, z);
+        vec = ClickToBuild(raycastHit, hasHit, vec);
 
+        return vec;
+    }
+
+    private Vector3 ClickToBuild(RaycastHit raycastHit, bool hasHit, Vector3 vec)
+    {
         if (hasHit && raycastHit.transform.tag == "Tile")
         {
             if (Input.GetMouseButtonDown(0))
             {
                 print(raycastHit.transform.name);
-                GameObject cube = DrawObject(vec);
 
-                vec *= 10;
-                vec.y = 1f;
-                cube.transform.position = vec;
+                TileProps tileprops = raycastHit.transform.GetComponent<TileProps>();
+                if (tileprops.CheckIfCanBuildOnTile())
+                {
+                    GameObject cube = DrawObject(vec);
+                    print(tileprops.CheckIfCanBuildOnTile());
+
+                    vec *= 10;
+                    vec.y = 1f;
+                    cube.transform.position = vec;
+                }
+
             }
         }
 
@@ -80,7 +93,7 @@ public class GridManager : MonoBehaviour
     private GameObject DrawObject(Vector3 placeToDraw)
     {
         // Changing grid coordinates to cell size scale coordinates
-        placeToDraw*=cellSize;
+        placeToDraw *= cellSize;
         placeToDraw.y = 1f;
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         cube.transform.localScale = new Vector3(cellSize, cellSize, cellSize);

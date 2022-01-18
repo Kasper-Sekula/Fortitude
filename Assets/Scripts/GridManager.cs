@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public partial class GridManager : MonoBehaviour
 {
@@ -17,6 +17,7 @@ public partial class GridManager : MonoBehaviour
     BuildingSO buildingSO;
     [SerializeField] List<BuildingSO> listOfBuidlings;
     BuildingSO.Dir currentDir = BuildingSO.Dir.Down;
+    [SerializeField] List<Button> buttons;
     
 
     private void Awake()
@@ -34,7 +35,13 @@ public partial class GridManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+
+        bool clickOnButton = false;
+        foreach (Button button in buttons){
+            if (RectTransformUtility.RectangleContainsScreenPoint(button.GetComponent<RectTransform>() ,Input.mousePosition)){ clickOnButton = true;}
+        }
+
+        if (Input.GetMouseButtonDown(0) && !clickOnButton)
         {
             Vector3 vec = GetMouseWorldPosition();
             grid.GetXZ(GetMouseWorldPosition(), out int x, out int z);

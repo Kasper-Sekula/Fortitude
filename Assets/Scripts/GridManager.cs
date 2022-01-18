@@ -18,6 +18,7 @@ public partial class GridManager : MonoBehaviour
     [SerializeField] List<BuildingSO> listOfBuidlings;
     BuildingSO.Dir currentDir = BuildingSO.Dir.Down;
     [SerializeField] List<Button> buttons;
+    Transform preview;
     
 
     private void Awake()
@@ -31,15 +32,17 @@ public partial class GridManager : MonoBehaviour
     {
         //GridCreator(width, height, cellSize);
         CreateMainTree();
+        preview = Instantiate(buildingSO.prefab, GetMouseWorldPosition(), Quaternion.identity);
     }
 
     private void Update()
     {
-
+        CheckPreviewPosition();
         bool clickOnButton = false;
         foreach (Button button in buttons){
             if (RectTransformUtility.RectangleContainsScreenPoint(button.GetComponent<RectTransform>() ,Input.mousePosition)){ clickOnButton = true;}
         }
+        
 
         if (Input.GetMouseButtonDown(0) && !clickOnButton)
         {
@@ -72,7 +75,6 @@ public partial class GridManager : MonoBehaviour
                 {
                     grid.GetGridObject(gridPosition.x, gridPosition.y).SetPlacedbuilding(placedBuilding);
                 }
-
                 //gridObject.SetTransform(buildTransform);
             } else
             {
@@ -124,6 +126,18 @@ public partial class GridManager : MonoBehaviour
     public void ChooseBuildingToBuild(int i)
     {
         buildingSO = listOfBuidlings[i];
+    }
+
+    void CheckPreviewPosition()
+    {
+        Vector3 vec = GetMouseWorldPosition();
+        vec.y = 0;
+        if (preview.transform.position != vec)
+        {
+            print(preview);
+            Destroy(preview.gameObject);
+            preview = Instantiate(buildingSO.prefab, vec, Quaternion.Euler(0, buildingSO.GetRotationAngle(currentDir), 0));
+        }
     }
 
 }

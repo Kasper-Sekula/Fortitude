@@ -23,6 +23,8 @@ public class BuildingSO : ScriptableObject
         Right,
     }
 
+    public float resGenSpeed = 2.0f;
+
     public string buildingName;
     public Transform prefab;
     public Transform visual;

@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EmptyTile Variant 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6514766473470281956, guid: 99bce7f230e96364faabed6d6c75459b, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 7701341987173246597, guid: 99bce7f230e96364faabed6d6c75459b, type: 3}
       propertyPath: m_RootOrder
       value: 0

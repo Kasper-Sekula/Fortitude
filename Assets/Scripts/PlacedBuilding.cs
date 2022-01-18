@@ -20,6 +20,7 @@ public class PlacedBuilding : MonoBehaviour
     BuildingSO placedBuildingSO;
     Vector2Int origin;
     BuildingSO.Dir currentDir;
+    float income = 2.0f;
 
     public List<Vector2Int> GetGridPositionList(){
         return placedBuildingSO.GetGridPositionList(origin, currentDir);
@@ -27,5 +28,10 @@ public class PlacedBuilding : MonoBehaviour
 
     public void DestroyThis(){
         Destroy(gameObject);
+    }
+
+    public float GetIncome()
+    {
+        return income;
     }
 }

@@ -6,7 +6,11 @@ using UnityEngine.UI;
 public class MenuController : MonoBehaviour
 {
     [SerializeField] GameObject menuButtonGroup;
-    bool clicked;
+    bool clicked = true;
+
+    private void Start() {
+        menuButtonGroup.SetActive(false);
+    }
 
     public void MenuButtonClicked()
     {
@@ -18,6 +22,5 @@ public class MenuController : MonoBehaviour
             menuButtonGroup.SetActive(true);
             clicked = false; 
         }
-        print(clicked);
     }
 }

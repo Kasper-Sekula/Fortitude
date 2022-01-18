@@ -18,32 +18,36 @@ public partial class GridManager : MonoBehaviour
     [SerializeField] List<BuildingSO> listOfBuidlings;
     BuildingSO.Dir currentDir = BuildingSO.Dir.Down;
     [SerializeField] List<Button> buttons;
-    Transform preview;
-    
+    Transform preview;    
+    float incomePerSecond = 0f;
+    float amount = 0f;
+    protected float resourceTimer;
 
     private void Awake()
     {
         grid = new Grid<GridObject>(width,height,cellSize, Vector3.zero, (Grid<GridObject> g, int x, int z) => new GridObject(g, x, z));   
         
-        buildingSO = listOfBuidlings[0];
+        buildingSO = null;
     }
 
     private void Start()
     {
         //GridCreator(width, height, cellSize);
         CreateMainTree();
-        preview = Instantiate(buildingSO.prefab, GetMouseWorldPosition(), Quaternion.identity);
+        //preview = Instantiate(buildingSO.prefab, GetMouseWorldPosition(), Quaternion.identity);
     }
 
     private void Update()
     {
         CheckPreviewPosition();
+
+        // Unable to clicl through UI buttons
         bool clickOnButton = false;
         foreach (Button button in buttons){
             if (RectTransformUtility.RectangleContainsScreenPoint(button.GetComponent<RectTransform>() ,Input.mousePosition)){ clickOnButton = true;}
         }
         
-
+        // Left mouse click
         if (Input.GetMouseButtonDown(0) && !clickOnButton)
         {
             Vector3 vec = GetMouseWorldPosition();
@@ -68,7 +72,8 @@ public partial class GridManager : MonoBehaviour
                 Vector3 buildingWorldPosition = grid.GetWorldPosition(x,z) + new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.CellSize;
 
                 PlacedBuilding placedBuilding = PlacedBuilding.Create(buildingWorldPosition, new Vector2Int(x, z), currentDir, buildingSO);
-                
+                incomePerSecond += placedBuilding.GetIncome();
+               
                 // Transform buildTransform = Instantiate(buildingSO.prefab, buildingWorldPosition, Quaternion.Euler(0, buildingSO.GetRotationAngle(currentDir), 0));
 
                 foreach (Vector2Int gridPosition in gridPositionList)
@@ -98,7 +103,6 @@ public partial class GridManager : MonoBehaviour
             }
         }
 
-
         // Building rotation
         if (Input.GetKeyDown(KeyCode.R)) {
             currentDir = BuildingSO.GetNextDir(currentDir);
@@ -107,6 +111,16 @@ public partial class GridManager : MonoBehaviour
         // Building choice
         if (Input.GetKeyDown(KeyCode.Alpha1)) { buildingSO = listOfBuidlings[0]; }
         if (Input.GetKeyDown(KeyCode.Alpha2)) { buildingSO = listOfBuidlings[1]; }
+
+        resourceTimer += Time.deltaTime;
+
+        if (resourceTimer >= 1)
+        {
+            resourceTimer = 0f;
+            amount += incomePerSecond;
+        }
+                    //income = income * Time.deltaTime;
+        print(amount);
     }
 
     void CreateMainTree()
@@ -125,19 +139,42 @@ public partial class GridManager : MonoBehaviour
 
     public void ChooseBuildingToBuild(int i)
     {
-        buildingSO = listOfBuidlings[i];
+        if (i == 9)
+        {
+            // TODO Cancel choice
+            print("9");
+        }
+        else
+        {
+            buildingSO = listOfBuidlings[i];
+            if (preview != null) {
+                Destroy(preview.gameObject);
+                SetPreview();
+            } else{
+                SetPreview();
+            }  
+        }
     }
 
     void CheckPreviewPosition()
     {
+        if (buildingSO == null) { return; }
         Vector3 vec = GetMouseWorldPosition();
         vec.y = 0;
         if (preview.transform.position != vec)
         {
-            print(preview);
             Destroy(preview.gameObject);
             preview = Instantiate(buildingSO.prefab, vec, Quaternion.Euler(0, buildingSO.GetRotationAngle(currentDir), 0));
         }
     }
 
+    void SetPreview()
+    {
+        preview = Instantiate(buildingSO.prefab, GetMouseWorldPosition(), Quaternion.identity);
+    }
+
+
+    public List<BuildingSO> GetListOfBuildings(){
+        return listOfBuidlings;
+    }
 }

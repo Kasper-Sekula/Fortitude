@@ -20,7 +20,7 @@ public partial class GridManager : MonoBehaviour
     [SerializeField] List<Button> buttons;
     Transform preview;    
     float incomePerSecond = 0f;
-    float amount = 0f;
+    float amount = 100f;
     protected float resourceTimer;
 
     private void Awake()
@@ -72,20 +72,29 @@ public partial class GridManager : MonoBehaviour
                 Vector2Int rotationOffset = buildingSO.GetRotationOffset(currentDir);
                 Vector3 buildingWorldPosition = grid.GetWorldPosition(x, z) + new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.CellSize;
 
-                PlacedBuilding placedBuilding = PlacedBuilding.Create(buildingWorldPosition, new Vector2Int(x, z), currentDir, buildingSO);
-
-                // Saving seed type to PlacedBuilding
-                placedBuilding.SetSeedType(buildingSO.seedType);
-                // Add Income when building is placed
-                incomePerSecond += placedBuilding.GetIncome();
-
-                // Transform buildTransform = Instantiate(buildingSO.prefab, buildingWorldPosition, Quaternion.Euler(0, buildingSO.GetRotationAngle(currentDir), 0));
-
-                foreach (Vector2Int gridPosition in gridPositionList)
+                if (amount >= buildingSO.costToBuild)
                 {
-                    grid.GetGridObject(gridPosition.x, gridPosition.y).SetPlacedbuilding(placedBuilding);
+                    amount -= buildingSO.costToBuild;
+                    PlacedBuilding placedBuilding = PlacedBuilding.Create(buildingWorldPosition, new Vector2Int(x, z), currentDir, buildingSO);
+
+                    // Saving seed type to PlacedBuilding
+                    placedBuilding.SetSeedType(buildingSO.seedType);
+                    // Add Income when building is placed
+                    incomePerSecond += placedBuilding.GetIncome();
+
+                    // Transform buildTransform = Instantiate(buildingSO.prefab, buildingWorldPosition, Quaternion.Euler(0, buildingSO.GetRotationAngle(currentDir), 0));
+
+                    foreach (Vector2Int gridPosition in gridPositionList)
+                    {
+                        grid.GetGridObject(gridPosition.x, gridPosition.y).SetPlacedbuilding(placedBuilding);
+                    }
+                    //gridObject.SetTransform(buildTransform);
                 }
-                //gridObject.SetTransform(buildTransform);
+                else {
+                    print ($"Amount is too low to build: {amount} {buildingSO.costToBuild}");
+                }
+
+
             }
             else
             {
@@ -107,7 +116,10 @@ public partial class GridManager : MonoBehaviour
                 {
                     grid.GetGridObject(gridPosition.x, gridPosition.y).ClearPlacedObject();
                 }
-
+                incomePerSecond -= placedBuilding.GetIncome();
+                print(placedBuilding.GetIncome());
+                print(incomePerSecond);
+                amount += (buildingSO.costToBuild / 2);
             }
         }
 

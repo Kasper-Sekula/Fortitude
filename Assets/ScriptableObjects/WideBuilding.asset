@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b79a9837af2271349b1f614fc67dceb5, type: 3}
   m_Name: WideBuilding
   m_EditorClassIdentifier: 
+  resGenSpeed: 2
   buildingName: Wide
   prefab: {fileID: 8316479738890323163, guid: bdd68622ad5be4e46850de7725532e6b, type: 3}
   visual: {fileID: 8316479738890323163, guid: bdd68622ad5be4e46850de7725532e6b, type: 3}
   width: 2
   height: 1
+  seedType: softSeed

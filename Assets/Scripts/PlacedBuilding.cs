@@ -20,6 +20,7 @@ public class PlacedBuilding : MonoBehaviour
     BuildingSO placedBuildingSO;
     Vector2Int origin;
     BuildingSO.Dir currentDir;
+    string seedType;
     float income = 2.0f;
 
     public List<Vector2Int> GetGridPositionList(){
@@ -30,8 +31,18 @@ public class PlacedBuilding : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void SetSeedType(string seedType){
+        this.seedType = seedType;
+    }
+
     public float GetIncome()
     {
-        return income;
+        return incomeDict[seedType];
     }
+
+    Dictionary<string, float> incomeDict = new Dictionary<string, float>(){
+        {"softSeed", 2.0f},
+        {"mediumSeed", 4.0f},
+        {"hardSeed", 6.0f}
+    };
 }

@@ -43,10 +43,11 @@ public partial class GridManager : MonoBehaviour
 
         // Unable to clicl through UI buttons
         bool clickOnButton = false;
-        foreach (Button button in buttons){
-            if (RectTransformUtility.RectangleContainsScreenPoint(button.GetComponent<RectTransform>() ,Input.mousePosition)){ clickOnButton = true;}
+        foreach (Button button in buttons)
+        {
+            if (RectTransformUtility.RectangleContainsScreenPoint(button.GetComponent<RectTransform>(), Input.mousePosition)) { clickOnButton = true; }
         }
-        
+
         // Left mouse click
         if (Input.GetMouseButtonDown(0) && !clickOnButton)
         {
@@ -69,11 +70,15 @@ public partial class GridManager : MonoBehaviour
             if (canBuild)
             {
                 Vector2Int rotationOffset = buildingSO.GetRotationOffset(currentDir);
-                Vector3 buildingWorldPosition = grid.GetWorldPosition(x,z) + new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.CellSize;
+                Vector3 buildingWorldPosition = grid.GetWorldPosition(x, z) + new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.CellSize;
 
                 PlacedBuilding placedBuilding = PlacedBuilding.Create(buildingWorldPosition, new Vector2Int(x, z), currentDir, buildingSO);
+
+                // Saving seed type to PlacedBuilding
+                placedBuilding.SetSeedType(buildingSO.seedType);
+                // Add Income when building is placed
                 incomePerSecond += placedBuilding.GetIncome();
-               
+
                 // Transform buildTransform = Instantiate(buildingSO.prefab, buildingWorldPosition, Quaternion.Euler(0, buildingSO.GetRotationAngle(currentDir), 0));
 
                 foreach (Vector2Int gridPosition in gridPositionList)
@@ -81,17 +86,20 @@ public partial class GridManager : MonoBehaviour
                     grid.GetGridObject(gridPosition.x, gridPosition.y).SetPlacedbuilding(placedBuilding);
                 }
                 //gridObject.SetTransform(buildTransform);
-            } else
+            }
+            else
             {
                 print("Cannot build here!");
             }
         }
 
         // Demolish
-        if (Input.GetMouseButtonDown(1)){
+        if (Input.GetMouseButtonDown(1))
+        {
             GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
             PlacedBuilding placedBuilding = gridObject.GetPlacedBuilding();
-            if (placedBuilding != null) {
+            if (placedBuilding != null)
+            {
                 placedBuilding.DestroyThis();
 
                 List<Vector2Int> gridPositionList = placedBuilding.GetGridPositionList();
@@ -104,7 +112,8 @@ public partial class GridManager : MonoBehaviour
         }
 
         // Building rotation
-        if (Input.GetKeyDown(KeyCode.R)) {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
             currentDir = BuildingSO.GetNextDir(currentDir);
         }
 
@@ -112,6 +121,11 @@ public partial class GridManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1)) { buildingSO = listOfBuidlings[0]; }
         if (Input.GetKeyDown(KeyCode.Alpha2)) { buildingSO = listOfBuidlings[1]; }
 
+        CalculateIncome();
+    }
+
+    private void CalculateIncome()
+    {
         resourceTimer += Time.deltaTime;
 
         if (resourceTimer >= 1)
@@ -119,7 +133,7 @@ public partial class GridManager : MonoBehaviour
             resourceTimer = 0f;
             amount += incomePerSecond;
         }
-                    //income = income * Time.deltaTime;
+        //income = income * Time.deltaTime;
         print(amount);
     }
 

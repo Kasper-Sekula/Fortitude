@@ -30,6 +30,7 @@ public class BuildingSO : ScriptableObject
     public Transform visual;
     public int width;
     public int height;
+    public string seedType;
 
     public List<Vector2Int> GetGridPositionList(Vector2Int offset, Dir dir)
     {

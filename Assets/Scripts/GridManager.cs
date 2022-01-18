@@ -11,14 +11,19 @@ public partial class GridManager : MonoBehaviour
     [Tooltip("Cell size should be equal to grid multiplier.")]
     [SerializeField] float cellSize = 10f;
     [SerializeField] GameObject mainTreePrefab;
-    [SerializeField] BuildingSO buildingSO;
     GameObject[,] arr;
-    private Grid<GridObject> grid;
+    Grid<GridObject> grid;
+
+    BuildingSO buildingSO;
+    [SerializeField] List<BuildingSO> listOfBuidlings;
+    BuildingSO.Dir currentDir = BuildingSO.Dir.Down;
+    
 
     private void Awake()
     {
         grid = new Grid<GridObject>(width,height,cellSize, Vector3.zero, (Grid<GridObject> g, int x, int z) => new GridObject(g, x, z));   
-        print(grid);
+        
+        buildingSO = listOfBuidlings[0];
     }
 
     private void Start()
@@ -34,7 +39,7 @@ public partial class GridManager : MonoBehaviour
             Vector3 vec = GetMouseWorldPosition();
             grid.GetXZ(GetMouseWorldPosition(), out int x, out int z);
 
-            List<Vector2Int> gridPositionList = buildingSO.GetGridPositionList(new Vector2Int(x, z));
+            List<Vector2Int> gridPositionList = buildingSO.GetGridPositionList(new Vector2Int(x, z), currentDir);
 
             bool canBuild = true;
 
@@ -49,7 +54,10 @@ public partial class GridManager : MonoBehaviour
 
             if (canBuild)
             {
-                Transform buildTransform = Instantiate(buildingSO.prefab, grid.GetWorldPosition(x,z), Quaternion.identity);
+                Vector2Int rotationOffset = buildingSO.GetRotationOffset(currentDir);
+                Vector3 buildingWorldPosition = grid.GetWorldPosition(x,z) + new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.CellSize;
+                
+                Transform buildTransform = Instantiate(buildingSO.prefab, buildingWorldPosition, Quaternion.Euler(0, buildingSO.GetRotationAngle(currentDir), 0));
 
                 foreach (Vector2Int gridPosition in gridPositionList)
                 {
@@ -62,6 +70,13 @@ public partial class GridManager : MonoBehaviour
                 print("Cannot build here!");
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.R)) {
+            currentDir = BuildingSO.GetNextDir(currentDir);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) { buildingSO = listOfBuidlings[0]; }
+        if (Input.GetKeyDown(KeyCode.Alpha2)) { buildingSO = listOfBuidlings[1]; }
     }
 
     void CreateMainTree()
@@ -77,4 +92,6 @@ public partial class GridManager : MonoBehaviour
         if (hasHit) { return raycastHit.point; }
         else { return Vector3.zero; }
     }
+
+
 }

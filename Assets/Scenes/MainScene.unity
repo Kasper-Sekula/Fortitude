@@ -366,9 +366,8 @@ MonoBehaviour:
   width: 10
   height: 10
   cellSize: 10
-  tilePrefab: {fileID: 6514766473470281956, guid: 99bce7f230e96364faabed6d6c75459b, type: 3}
   mainTreePrefab: {fileID: 8583419768018756074, guid: 25ed157ba1aa17646b20c040ddf53466, type: 3}
-  testSO: {fileID: 11400000, guid: ffa024e98ffbd144db6fd43f7921b56c, type: 2}
+  buildingSO: {fileID: 11400000, guid: 4b51fa93a1b836747a7a195f14db5be3, type: 2}
 --- !u!114 &1531918490
 MonoBehaviour:
   m_ObjectHideFlags: 0

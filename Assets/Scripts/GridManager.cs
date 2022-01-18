@@ -121,5 +121,9 @@ public partial class GridManager : MonoBehaviour
         else { return Vector3.zero; }
     }
 
+    public void ChooseBuildingToBuild(int i)
+    {
+        buildingSO = listOfBuidlings[i];
+    }
 
 }

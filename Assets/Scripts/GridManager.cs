@@ -185,7 +185,10 @@ public partial class GridManager : MonoBehaviour
     void CheckPreviewPosition()
     {
         if (buildingSO == null) { return; }
-        Vector3 vec = GetMouseWorldPosition();
+        Vector2Int rotationOffset = buildingSO.GetRotationOffset(currentDir);
+        grid.GetXZ(GetMouseWorldPosition(), out int x, out int z);
+        Vector3 vec = grid.GetWorldPosition(x, z) + new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.CellSize;
+        //Vector3 vec = GetMouseWorldPosition();
         vec.y = 0;
         if (preview.transform.position != vec)
         {

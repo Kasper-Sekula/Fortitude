@@ -4,7 +4,7 @@ public class GridObject {
     private Grid<GridObject> grid;
     private int x;
     private int z;
-    private Transform transform;
+    private PlacedBuilding placedBuilding;
 
     public GridObject(Grid<GridObject> grid, int x, int z)
     {
@@ -13,26 +13,30 @@ public class GridObject {
         this.z = z;
     }
 
-    public void SetTransform(Transform transform)
+    public void SetPlacedbuilding(PlacedBuilding placedBuilding)
     {
-        this.transform = transform;
+        this.placedBuilding= placedBuilding;
         grid.TriggerGridObjectChanged(x,z);
     }
 
-    public void ClearTransform()
+    public PlacedBuilding GetPlacedBuilding(){
+        return placedBuilding;
+    }
+
+    public void ClearPlacedObject()
     {
-        transform = null;
+        placedBuilding = null;
         grid.TriggerGridObjectChanged(x,z);
     }
 
     public bool CanBuild()
     {
-        return transform == null;
+        return placedBuilding == null;
     }
 
     public override string ToString()
     {
-        return x + ", " + z + "\n" + transform;
+        return x + ", " + z + "\n" + placedBuilding;
     }
 }
 

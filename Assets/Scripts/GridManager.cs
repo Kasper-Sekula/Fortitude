@@ -56,12 +56,14 @@ public partial class GridManager : MonoBehaviour
             {
                 Vector2Int rotationOffset = buildingSO.GetRotationOffset(currentDir);
                 Vector3 buildingWorldPosition = grid.GetWorldPosition(x,z) + new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.CellSize;
+
+                PlacedBuilding placedBuilding = PlacedBuilding.Create(buildingWorldPosition, new Vector2Int(x, z), currentDir, buildingSO);
                 
-                Transform buildTransform = Instantiate(buildingSO.prefab, buildingWorldPosition, Quaternion.Euler(0, buildingSO.GetRotationAngle(currentDir), 0));
+                // Transform buildTransform = Instantiate(buildingSO.prefab, buildingWorldPosition, Quaternion.Euler(0, buildingSO.GetRotationAngle(currentDir), 0));
 
                 foreach (Vector2Int gridPosition in gridPositionList)
                 {
-                    grid.GetGridObject(gridPosition.x, gridPosition.y).SetTransform(buildTransform);
+                    grid.GetGridObject(gridPosition.x, gridPosition.y).SetPlacedbuilding(placedBuilding);
                 }
 
                 //gridObject.SetTransform(buildTransform);
@@ -71,10 +73,29 @@ public partial class GridManager : MonoBehaviour
             }
         }
 
+        // Demolish
+        if (Input.GetMouseButtonDown(1)){
+            GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
+            PlacedBuilding placedBuilding = gridObject.GetPlacedBuilding();
+            if (placedBuilding != null) {
+                placedBuilding.DestroyThis();
+
+                List<Vector2Int> gridPositionList = placedBuilding.GetGridPositionList();
+                foreach (Vector2Int gridPosition in gridPositionList)
+                {
+                    grid.GetGridObject(gridPosition.x, gridPosition.y).ClearPlacedObject();
+                }
+
+            }
+        }
+
+
+        // Building rotation
         if (Input.GetKeyDown(KeyCode.R)) {
             currentDir = BuildingSO.GetNextDir(currentDir);
         }
 
+        // Building choice
         if (Input.GetKeyDown(KeyCode.Alpha1)) { buildingSO = listOfBuidlings[0]; }
         if (Input.GetKeyDown(KeyCode.Alpha2)) { buildingSO = listOfBuidlings[1]; }
     }

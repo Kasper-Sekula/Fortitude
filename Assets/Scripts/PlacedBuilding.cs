@@ -20,4 +20,12 @@ public class PlacedBuilding : MonoBehaviour
     BuildingSO placedBuildingSO;
     Vector2Int origin;
     BuildingSO.Dir currentDir;
+
+    public List<Vector2Int> GetGridPositionList(){
+        return placedBuildingSO.GetGridPositionList(origin, currentDir);
+    }
+
+    public void DestroyThis(){
+        Destroy(gameObject);
+    }
 }

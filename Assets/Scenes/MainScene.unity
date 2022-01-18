@@ -367,7 +367,9 @@ MonoBehaviour:
   height: 10
   cellSize: 10
   mainTreePrefab: {fileID: 8583419768018756074, guid: 25ed157ba1aa17646b20c040ddf53466, type: 3}
-  buildingSO: {fileID: 11400000, guid: 4b51fa93a1b836747a7a195f14db5be3, type: 2}
+  listOfBuidlings:
+  - {fileID: 11400000, guid: 4b51fa93a1b836747a7a195f14db5be3, type: 2}
+  - {fileID: 11400000, guid: 6dba9acdc6edb8942bb5c9e7c3034340, type: 2}
 --- !u!114 &1531918490
 MonoBehaviour:
   m_ObjectHideFlags: 0

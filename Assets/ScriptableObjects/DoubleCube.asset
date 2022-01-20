@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b79a9837af2271349b1f614fc67dceb5, type: 3}
   m_Name: DoubleCube
   m_EditorClassIdentifier: 
-  resGenSpeed: 2
   buildingName: Double
   prefab: {fileID: 6083880248958318712, guid: 6d0cfcfa579f59241810bc66d4a14c99, type: 3}
   visual: {fileID: 6083880248958318712, guid: 6d0cfcfa579f59241810bc66d4a14c99, type: 3}
   width: 2
   height: 2
-  seedType: mediumSeed
+  seedType: oak
   costToBuild: 200

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b79a9837af2271349b1f614fc67dceb5, type: 3}
-  m_Name: WideBuilding
+  m_Name: SpruceSO
   m_EditorClassIdentifier: 
-  buildingName: Wide
-  prefab: {fileID: 8316479738890323163, guid: bdd68622ad5be4e46850de7725532e6b, type: 3}
-  visual: {fileID: 8316479738890323163, guid: bdd68622ad5be4e46850de7725532e6b, type: 3}
-  width: 2
+  buildingName: Spruce tree
+  prefab: {fileID: -8679921383154817045, guid: 792e7dee6dda73e4b96ae99acc487c1a, type: 3}
+  visual: {fileID: -8679921383154817045, guid: 792e7dee6dda73e4b96ae99acc487c1a, type: 3}
+  width: 1
   height: 1
   seedType: spruce
   costToBuild: 50

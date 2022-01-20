@@ -7,8 +7,11 @@ public class PlacedBuilding : MonoBehaviour
     public static PlacedBuilding Create(Vector3 worldPosition, Vector2Int origin, BuildingSO.Dir currentDir, BuildingSO buildingSO)
     {
         Transform placedBuildingTransform = Instantiate(buildingSO.prefab, worldPosition, Quaternion.Euler(0, buildingSO.GetRotationAngle(currentDir), 0));
+        placedBuildingTransform.gameObject.AddComponent<PlacedBuilding>();
 
         PlacedBuilding placedBuilding = placedBuildingTransform.GetComponent<PlacedBuilding>();
+        print(placedBuildingTransform.GetComponents(typeof(Component)));
+
 
         placedBuilding.placedBuildingSO = buildingSO;
         placedBuilding.origin = origin;
@@ -41,8 +44,8 @@ public class PlacedBuilding : MonoBehaviour
     }
 
     Dictionary<string, float> incomeDict = new Dictionary<string, float>(){
-        {"softSeed", 2.0f},
-        {"mediumSeed", 4.0f},
-        {"hardSeed", 6.0f}
+        {"spruce", 2.0f},
+        {"birch", 4.0f},
+        {"oak", 6.0f}
     };
 }

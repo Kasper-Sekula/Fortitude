@@ -78,9 +78,10 @@ public partial class GridManager : MonoBehaviour
                     PlacedBuilding placedBuilding = PlacedBuilding.Create(buildingWorldPosition, new Vector2Int(x, z), currentDir, buildingSO);
 
                     // Saving seed type to PlacedBuilding
-                    placedBuilding.SetSeedType(buildingSO.seedType);
+                    placedBuilding.SetSeedType(buildingSO.seedType);    
                     // Add Income when building is placed
                     incomePerSecond += placedBuilding.GetIncome();
+                    print($"{placedBuilding.name} added, now income: {incomePerSecond}");
 
                     // Transform buildTransform = Instantiate(buildingSO.prefab, buildingWorldPosition, Quaternion.Euler(0, buildingSO.GetRotationAngle(currentDir), 0));
 
